@@ -1,6 +1,15 @@
+
 # Sudo Shell
 
 Sudo Shell is a wrapper to run a login shell with `sudo` for the purpose of audit logging. 
+
+[![Build Status](https://travis-ci.org/cloudposse/sudosh.svg?branch=master)](https://travis-ci.org/cloudposse/sudosh)
+[![GitHub Stars](https://img.shields.io/github/stars/cloudposse/sudosh.svg)](https://github.com/cloudposse/sudosh/stargazers) 
+[![GitHub Issues](https://img.shields.io/github/issues/cloudposse/sudosh.svg)](https://github.com/cloudposse/sudosh/issues)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/cloudposse/sudosh.svg)](http://isitmaintained.com/project/cloudposse/sudosh "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/cloudposse/sudosh.svg)](http://isitmaintained.com/project/cloudposse/sudosh "Percentage of issues still open")
+[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](https://github.com/cloudposse/sudosh/pulls)
+[![License](https://img.shields.io/badge/license-APACHE%202.0%20-brightgreen.svg)](https://github.com/cloudposse/sudosh/blob/master/LICENSE)
 
 
 ## Purpose
@@ -12,9 +21,7 @@ Another common pattern is to use the `ForceCommand` directive with `sshd_config`
 
 ## Usage
 
-1. Enable `sudo` logging.
-
-`/etc/sudoers.d/audit-logs`
+1. Enable `sudo` logging. Edit `/etc/sudoers.d/audit-logs`:
 
 ```
 Defaults log_output
@@ -22,15 +29,13 @@ Defaults!/usr/bin/sudoreplay !log_output
 Defaults!/sbin/reboot !log_output
 ```
 
-2. Add this command to `/etc/shells`
-
-`/etc/shells`:
+2. Add this command to `/etc/shells`:
 
 ```
 /usr/bin/sudosh
 ```
 
-Tip: to prevent users from using other shells to login, remove them from `/etc/shells`.
+**Tip**: to prevent users from using other shells to login, remove them from `/etc/shells`.
 
 
 3. Update the user `foobar` to use the `sudosh` shell.
@@ -50,5 +55,5 @@ To change the default shell to `zsh`, you could do:
 ln -s /usr/bin/sudosh /usr/bin/sudosh.zsh
 ```
 
-Then set the user's shell to `/usr/bin/sudosh.zsh` and add the shell to `/etc/shells.
+Then set the user's shell to `/usr/bin/sudosh.zsh` and add the shell to `/etc/shells`.
 
