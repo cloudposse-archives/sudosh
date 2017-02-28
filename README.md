@@ -1,4 +1,3 @@
-
 # Sudo Shell
 
 Sudo Shell is a wrapper to run a login shell with `sudo` for the purpose of session audit logging. 
