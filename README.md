@@ -1,7 +1,7 @@
 
 # Sudo Shell
 
-Sudo Shell is a wrapper to run a login shell with `sudo` for the purpose of audit logging. 
+Sudo Shell is a wrapper to run a login shell with `sudo` for the purpose of session audit logging. 
 
 [![Build Status](https://travis-ci.org/cloudposse/sudosh.svg?branch=master)](https://travis-ci.org/cloudposse/sudosh)
 [![GitHub Stars](https://img.shields.io/github/stars/cloudposse/sudosh.svg)](https://github.com/cloudposse/sudosh/stargazers) 
@@ -14,10 +14,9 @@ Sudo Shell is a wrapper to run a login shell with `sudo` for the purpose of audi
 
 ## Purpose
 
-The `sudo` command provides built-in session logging. Combined with [`sudoreplay`](https://www.sudo.ws/man/1.8.13/sudoreplay.man.html), there's an easy way to review system logs on a [bastion](https://github.com/cloudposse/bastion/) host. This wrapper can be used as a system login shell. By forcing the user login shell to call `sudo`, we can enforce audit logs for all users by default.
+The `sudo` command provides built-in session logging. Combined with [`sudoreplay`](https://www.sudo.ws/man/1.8.13/sudoreplay.man.html) it provides an easy way to review session logs on a [bastion](https://github.com/cloudposse/bastion/) host. When used as a system login shell, it will force session logging.
 
-Another common pattern is to use the `ForceCommand` directive with `sshd_config` in OpenSSH. This is dangerous because if the [user can easily bypass it](http://serverfault.com/a/639814). 
-
+[Another common pattern](https://aws.amazon.com/blogs/security/how-to-record-ssh-sessions-established-through-a-bastion-host/) is to use the OpenSSH `ForceCommand` directive in `sshd_config` combined with the `script` command to log sessions. This is ineffective because the [user can easily bypass](http://serverfault.com/a/639814) it.  Using `sudosh` provides a more secure alternative that cannot be bypassed since it does not depend on `ForceCommand`.
 
 ## Usage
 
