@@ -20,28 +20,30 @@ The `sudo` command provides built-in session logging. Combined with [`sudoreplay
 
 ## Usage
 
+Here's how to use it in 3 easy steps. Checkout the [precompiled releases](https://github.com/cloudposse/sudosh/releases) if you don't want to build it yourself..
+
 1. Enable `sudo` logging. Edit `/etc/sudoers.d/audit-logs`:
 
-```
-Defaults log_output
-Defaults!/usr/bin/sudoreplay !log_output
-Defaults!/sbin/reboot !log_output
-```
+    ```
+    Defaults log_output
+    Defaults!/usr/bin/sudoreplay !log_output
+    Defaults!/sbin/reboot !log_output
+    ```
 
 2. Add this command to `/etc/shells`:
 
-```
-/usr/bin/sudosh
-```
+    ```
+    /usr/bin/sudosh
+    ```
 
-**Tip**: to prevent users from using other shells to login, remove them from `/etc/shells`.
+    **Tip**: to prevent users from using other shells to login, remove those shells from `/etc/shells`.
 
 
 3. Update the user `foobar` to use the `sudosh` shell.
 
-```
-chsh -s /usr/bin/sudosh foobar
-```
+    ```
+    chsh -s /usr/bin/sudosh foobar
+    ```
 
 
 ## Other Tricks
@@ -56,3 +58,24 @@ ln -s /usr/bin/sudosh /usr/bin/sudosh.zsh
 
 Then set the user's shell to `/usr/bin/sudosh.zsh` and add the shell to `/etc/shells`.
 
+## About
+
+
+The `sudosh` utility is maintained and funded by [Cloud Posse, LLC][website]. Like it? Please let us know at <hello@cloudposse.com>
+
+We love Open Source Software! 
+
+See [our other projects][community]
+or [hire us][hire] to help build your next cloud-platform.
+
+  [website]: https://cloudposse.com/
+  [community]: https://github.com/cloudposse/
+  [hire]: https://cloudposse.com/contact/
+  
+### Contributors
+
+[![Erik Osterman](http://s.gravatar.com/avatar/88c480d4f73b813904e00a5695a454cb?s=144)](https://osterman.com) 
+
+[Erik Osterman](https://github.com/osterman) 
+
+ 
