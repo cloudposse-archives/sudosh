@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"os/user"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -20,24 +21,52 @@ func init() {
 func main() {
 	log.SetFlags(0) // no timestamps on our logs
 
+	// Args that we pass to sudo
+	var args []string
+
+	var shell string
+	var ext string
+
+	// The command that was executed
+	cmd := os.Args[0]
+
+	ext = strings.TrimLeft(filepath.Ext(cmd), ".")
+	// If no extension, default to bash
+	if ext == "" {
+		ext = "bash"
+	}
+
+	// Resolve extension to a shell
+	shellFound, shellPathErr := exec.LookPath(ext)
+	if shellPathErr != nil {
+		log.Fatalf("error: find to find shell %v: %v", ext, shellPathErr)
+	}
+	shell = shellFound
+
+	// Shell is always launched as current user
+	user, userErr := user.Current()
+	if userErr != nil {
+		log.Fatalf("error: unable to determine current user: %v", userErr)
+	}
+
 	// Fetch environment
 	env := os.Environ()
 
 	// Lookup path for `sudo`
-	binary, lookErr := exec.LookPath("sudo")
-	if lookErr != nil {
-		panic(lookErr)
+	binary, lookPathErr := exec.LookPath("sudo")
+	if lookPathErr != nil {
+		log.Fatalf("error: find to find sudo: %v", lookPathErr)
 	}
 
 	// Prepare `sudo` args
 	if len(os.Args) <= 2 {
-		args := []string{"sudo", "-u", "-i"}
+		args = []string{"sudo", "-u", user.Username, "-s", shell, "-l"}
 	} else {
-		args := append([]string{"sudo", "-u", "--"}, os.Args[2:])
+		args = append([]string{"sudo", "-u", user.Username, "--"}, os.Args[1:]...)
 	}
 
-	err := syscall.Exec(binary, args, env)
-	if err != nil {
-		log.Fatalf("error: exec failed: %v", err)
+	execErr := syscall.Exec(binary, args, env)
+	if execErr != nil {
+		log.Fatalf("error: exec failed: %v", execErr)
 	}
 }
