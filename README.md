@@ -1,12 +1,11 @@
-# sudosh
-========
+# Sudo Shell
 
-Shell wrapper to run a login shell with `sudo` for the purpose of audit logging.
+Sudo Shell is a wrapper to run a login shell with `sudo` for the purpose of audit logging. 
 
 
 ## Purpose
 
-The `sudo` command provides built-in session logging. Combined with [`sudoreplay`](https://www.sudo.ws/man/1.8.13/sudoreplay.man.html), there's an easy way to review system logs on a [bastion](https://github.com/cloudposse/bastion/) host. This wrapper can be used as a system login shell. By forcing the user login shell to call sudo, we can enforce audit logs for all users by default.
+The `sudo` command provides built-in session logging. Combined with [`sudoreplay`](https://www.sudo.ws/man/1.8.13/sudoreplay.man.html), there's an easy way to review system logs on a [bastion](https://github.com/cloudposse/bastion/) host. This wrapper can be used as a system login shell. By forcing the user login shell to call `sudo`, we can enforce audit logs for all users by default.
 
 
 ## Usage
