@@ -44,8 +44,36 @@ func main() {
 	shell = shellFound
 
 	// Shell is always launched as current user
+	username := ""
+
+	// user.Current() may not be implemented on some linux distros (e.g. alpine)
 	user, userErr := user.Current()
-	if userErr != nil {
+	if userErr == nil {
+		username = user.Username
+	}
+
+	// Fallback to fetching the `USER` env
+	if username == "" {
+		username = os.Getenv("USER")
+	}
+
+	// Fallback to fetching `USERNAME` env
+	if username == "" {
+		username = os.Getenv("USERNAME")
+	}
+
+	// Fallback to calling `whoami` command
+	if username == "" {
+		whoami := exec.Command("whoami")
+		whoamiStdout, whoamiErr := whoami.Output()
+		if whoamiErr != nil {
+			log.Fatalf("error: unable to determine current user: %v", whoamiErr)
+		}
+		username = strings.TrimSpace(string(whoamiStdout))
+	}
+
+	// Give up
+	if username == "" {
 		log.Fatalf("error: unable to determine current user: %v", userErr)
 	}
 
@@ -60,9 +88,9 @@ func main() {
 
 	// Prepare `sudo` args
 	if len(os.Args) < 2 {
-		args = []string{"sudo", "-E", "-u", user.Username, "--", shell, "-l"}
+		args = []string{"sudo", "-E", "-u", username, "--", shell, "-l"}
 	} else {
-		args = append([]string{"sudo", "-E", "-u", user.Username, "-s", shell, "-c", "--"}, os.Args[1:]...)
+		args = append([]string{"sudo", "-E", "-u", username, "-s", shell, "-c", "--"}, os.Args[1:]...)
 	}
 
 	execErr := syscall.Exec(binary, args, env)
