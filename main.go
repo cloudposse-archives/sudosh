@@ -77,6 +77,9 @@ func main() {
 		log.Fatalf("error: unable to determine current user: %v", userErr)
 	}
 
+	// Set default shell (do not set to `sudosh`; it may cause infinite loops)
+	os.Setenv("SHELL", shell)
+
 	// Fetch environment
 	env := os.Environ()
 
@@ -88,9 +91,9 @@ func main() {
 
 	// Prepare `sudo` args
 	if len(os.Args) < 2 {
-		args = []string{"sudo", "-E", "-u", username, "--", shell, "-l"}
+		args = []string{"sudo", "-E", "-u", username, shell, "-l"}
 	} else {
-		args = append([]string{"sudo", "-E", "-u", username, "-s", shell, "-c", "--"}, os.Args[1:]...)
+		args = append([]string{"sudo", "-E", "-u", username, shell}, os.Args[1:]...)
 	}
 
 	execErr := syscall.Exec(binary, args, env)
