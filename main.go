@@ -53,16 +53,16 @@ func main() {
 	env := os.Environ()
 
 	// Lookup path for `sudo`
-	binary, lookPathErr := exec.LookPath("sudo")
-	if lookPathErr != nil {
-		log.Fatalf("error: find to find sudo: %v", lookPathErr)
+	binary, sudoPathErr := exec.LookPath("sudo")
+	if sudoPathErr != nil {
+		log.Fatalf("error: find to find sudo: %v", sudoPathErr)
 	}
 
 	// Prepare `sudo` args
-	if len(os.Args) <= 2 {
-		args = []string{"sudo", "-u", user.Username, "-s", shell, "-l"}
+	if len(os.Args) < 2 {
+		args = []string{"sudo", "-E", "-u", user.Username, "--", shell, "-l"}
 	} else {
-		args = append([]string{"sudo", "-u", user.Username, "--"}, os.Args[1:]...)
+		args = append([]string{"sudo", "-E", "-u", user.Username, "-s", shell, "-c", "--"}, os.Args[1:]...)
 	}
 
 	execErr := syscall.Exec(binary, args, env)
