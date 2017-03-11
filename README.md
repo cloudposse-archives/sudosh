@@ -42,6 +42,7 @@ Here's how to use it in 3 easy steps. Checkout the [precompiled releases](https:
 
     ```
     chsh -s /usr/bin/sudosh foobar
+    echo 'foobar ALL=(foobar) ALL' >> /etc/sudoers.d/sudosh
     ```
 
 
