@@ -21,7 +21,7 @@ The `sudo` command provides built-in session logging. Combined with [`sudoreplay
 
 Here's how to use it in 3 easy steps. Checkout the [precompiled releases](https://github.com/cloudposse/sudosh/releases) if you don't want to build it yourself..
 
-1. Enable `sudo` logging. Edit `/etc/sudoers.d/audit-logs`:
+1. Enable `sudo` logging. Edit `/etc/sudoers.d/sudosh`:
 
     ```
     Defaults log_output
@@ -42,6 +42,7 @@ Here's how to use it in 3 easy steps. Checkout the [precompiled releases](https:
 
     ```
     chsh -s /usr/bin/sudosh foobar
+    echo 'foobar ALL=(foobar) ALL' > /etc/sudoers.d/sudosh.foobar
     ```
 
 
