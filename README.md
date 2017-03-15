@@ -38,11 +38,11 @@ Here's how to use it in 3 easy steps. Checkout the [precompiled releases](https:
     **Tip**: to prevent users from using other shells to login, remove those shells from `/etc/shells`.
 
 
-3. Update the user `foobar` to use the `sudosh` shell.
+3. Update the user `foobar` to use the `sudosh` shell. (*NOTE:* files in `sudoers.d` cannot contain the `.` character)
 
     ```
     chsh -s /usr/bin/sudosh foobar
-    echo 'foobar ALL=(foobar) ALL' > /etc/sudoers.d/sudosh.foobar
+    echo 'foobar ALL=(foobar) ALL' > /etc/sudoers.d/sudosh-foobar
     ```
 
 
