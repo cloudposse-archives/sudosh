@@ -1,0 +1,99 @@
+---
+#
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
+#
+
+# Name of this project
+name: Sudo Shell
+
+# Tags of this project
+tags:
+  - sudo
+  - shell
+
+# Categories of this project
+categories:
+  - sudosh
+
+# Logo for this project
+#logo: docs/logo.png
+
+# License of this project
+license: "APACHE2"
+
+# Canonical GitHub repo
+github_repo: cloudposse/sudosh
+
+# Badges to display
+badges:
+  - name: "Build Status"
+    image: "https://travis-ci.org/cloudposse/sudosh.svg?branch=master"
+    url: "https://travis-ci.org/cloudposse/sudosh"
+  - name: "Latest Release"
+    image: "https://img.shields.io/github/release/cloudposse/sudosh.svg"
+    url: "https://github.com/cloudposse/sudosh/releases/latest"
+  - name: "GitHub Stars"
+    image: "https://img.shields.io/github/stars/cloudposse/sudosh.svg"
+    url: "https://github.com/cloudposse/sudosh/stargazers"
+  - name: Average time to resolve an issue
+    image: "http://isitmaintained.com/badge/resolution/cloudposse/sudosh.svg"
+    url: "http://isitmaintained.com/project/cloudposse/sudosh"
+  - name: "Percentage of issues still open"
+    image: "http://isitmaintained.com/badge/open/cloudposse/sudosh.svg"
+    url: "http://isitmaintained.com/project/cloudposse/sudosh"
+  - name: "Slack Community"
+    image: "https://slack.cloudposse.com/badge.svg"
+    url: "https://slack.cloudposse.com"
+
+# Short description of this project
+description: |-
+  Sudo Shell is a wrapper to run a login shell with `sudo` for the purpose of session audit logging. 
+
+# Introduction of this project
+introduction: |-
+  The `sudo` command provides built-in session logging. 
+  Combined with [`sudoreplay`](https://www.sudo.ws/man/1.8.13/sudoreplay.man.html) 
+  it provides an easy way to review session logs on a 
+  [bastion](https://github.com/cloudposse/bastion/) host. 
+  When used as a system login shell, it will force session logging.
+  
+  [Another common pattern](https://aws.amazon.com/blogs/security/how-to-record-ssh-sessions-established-through-a-bastion-host/) 
+  is to use the OpenSSH `ForceCommand` directive in `sshd_config` combined with the `script` command to log sessions. 
+  This is ineffective because the [user can easily bypass](http://serverfault.com/a/639814) it.  
+  Using `sudosh` provides a more secure alternative that cannot be bypassed since it does not depend on `ForceCommand`.
+
+usage: |-
+  Here's how to use it in 3 easy steps. 
+  Checkout the [precompiled releases](https://github.com/cloudposse/sudosh/releases) 
+  if you don't want to build it yourself...:
+
+  1. Enable `sudo` logging. Edit `/etc/sudoers.d/sudosh`:
+
+    ```
+    Defaults log_output
+    Defaults!/usr/bin/sudoreplay !log_output
+    Defaults!/sbin/reboot !log_output
+    ```
+
+  2. Add this command to `/etc/shells`:
+
+    ```
+    /usr/bin/sudosh
+    ```
+
+    **Tip**: to prevent users from using other shells to login, remove those shells from `/etc/shells`.
+
+
+  3. Update the user `foobar` to use the `sudosh` shell. 
+
+    ```
+    chsh -s /usr/bin/sudosh foobar
+    echo 'foobar ALL=(foobar) ALL' > /etc/sudoers.d/sudosh-foobar
+    ```
+    **NOTE:** filenames in `sudoers.d` cannot contain the `.` character
+
+# Contributors to this project
+contributors:
+  - name: "Erik Osterman"
+    github: "osterman"
