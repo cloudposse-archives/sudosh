@@ -52,6 +52,11 @@ func main() {
 		username = user.Username
 	}
 
+	// Fallback to fetching the `LOGNAME` env
+	if username == "" {
+		username = os.Getenv("LOGNAME")
+	}
+
 	// Fallback to fetching the `USER` env
 	if username == "" {
 		username = os.Getenv("USER")
