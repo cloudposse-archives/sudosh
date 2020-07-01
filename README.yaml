@@ -28,8 +28,8 @@ github_repo: cloudposse/sudosh
 # Badges to display
 badges:
   - name: "Build Status"
-    image: "https://travis-ci.org/cloudposse/sudosh.svg?branch=master"
-    url: "https://travis-ci.org/cloudposse/sudosh"
+    image: https://github.com/cloudposse/sudosh/workflows/go/badge.svg?branch=master
+    url: "https://github.com/cloudposse/sudosh/actions"
   - name: "Latest Release"
     image: "https://img.shields.io/github/release/cloudposse/sudosh.svg"
     url: "https://github.com/cloudposse/sudosh/releases/latest"
